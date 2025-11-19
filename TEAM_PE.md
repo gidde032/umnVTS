@@ -30,3 +30,4 @@ Establish your own additional team policies around the following aspects:
 ## Team Member Names
 Finn Gidden
 Sanghwi Park
+Jiawen Deng
