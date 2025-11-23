@@ -2,11 +2,8 @@ package edu.umn.cs.csci3081w.project.webserver;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import edu.umn.cs.csci3081w.project.model.DieselTrain;
-import edu.umn.cs.csci3081w.project.model.ElectricTrain;
-import edu.umn.cs.csci3081w.project.model.LargeBus;
-import edu.umn.cs.csci3081w.project.model.SmallBus;
-import edu.umn.cs.csci3081w.project.model.Vehicle;
+import edu.umn.cs.csci3081w.project.model.*;
+
 import java.util.List;
 
 public class GetVehiclesCommand extends SimulatorCommand {
@@ -38,12 +35,16 @@ public class GetVehiclesCommand extends SimulatorCommand {
       String vehicleType = "";
       if (currVehicle instanceof SmallBus) {
         vehicleType = SmallBus.SMALL_BUS_VEHICLE;
+        currVehicle = new RGBDecorator(currVehicle, new Color(122, 0, 25, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof LargeBus) {
         vehicleType = LargeBus.LARGE_BUS_VEHICLE;
+        currVehicle = new RGBDecorator(currVehicle, new Color(239, 130, 238, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof ElectricTrain) {
         vehicleType = ElectricTrain.ELECTRIC_TRAIN_VEHICLE;
+        currVehicle = new RGBDecorator(currVehicle, new Color(60, 179, 113, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof DieselTrain) {
         vehicleType = DieselTrain.DIESEL_TRAIN_VEHICLE;
+        currVehicle = new RGBDecorator(currVehicle, new Color(255, 204, 51, currVehicle.getColor().getAlpha()));
       }
       s.addProperty("type", vehicleType);
       s.addProperty("co2", currVehicle.getCurrentCO2Emission());
@@ -52,10 +53,13 @@ public class GetVehiclesCommand extends SimulatorCommand {
       positionJsonObject.addProperty("latitude", currVehicle.getPosition().getLatitude());
       s.add("position", positionJsonObject);
       JsonObject colorJsonObject = new JsonObject();
-      colorJsonObject.addProperty("r", 255);
-      colorJsonObject.addProperty("g", 255);
-      colorJsonObject.addProperty("b", 255);
-      colorJsonObject.addProperty("alpha", 255);
+      colorJsonObject.addProperty("r", currVehicle.getColor().getRed());
+      colorJsonObject.addProperty("g", currVehicle.getColor().getGreen());
+      colorJsonObject.addProperty("b", currVehicle.getColor().getBlue());
+      if (currVehicle.getLine().isIssueExist()) {
+        currVehicle = new AlphaDecorator(currVehicle);
+      }
+      colorJsonObject.addProperty("alpha", currVehicle.getColor().getAlpha());
       s.add("color", colorJsonObject);
       vehiclesArray.add(s);
     }
