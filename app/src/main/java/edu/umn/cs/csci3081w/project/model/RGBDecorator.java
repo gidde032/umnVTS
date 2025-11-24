@@ -6,6 +6,12 @@ public class RGBDecorator extends ColorDecorator{
 
   private Color rgba;
 
+  /**
+   * Constructor for a RGBDecorator
+   *
+   * @param v Vehicle
+   * @param rgba Color to decorate a vehicle with
+   */
   public RGBDecorator(Vehicle v, Color rgba) {
     super(v);
     this.rgba = rgba;

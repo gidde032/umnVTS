@@ -6,6 +6,14 @@ public class Color {
   private final int blue;
   private final int alpha;
 
+  /**
+   * Constructor for a Color.
+   *
+   * @param r red intensity. 0-255
+   * @param g green intensity. 0-255
+   * @param b blue intensity. 0-255
+   * @param alpha transparency. 0-255
+   */
   public Color(int r, int g, int b, int alpha) {
     this.red = r;
     this.green = g;

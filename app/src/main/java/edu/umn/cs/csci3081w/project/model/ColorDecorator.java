@@ -6,6 +6,11 @@ public abstract class ColorDecorator extends Vehicle {
 
   protected final Vehicle v;
 
+  /**
+   * ColorDecorator's constructor.
+   *
+   * @param v Vehicle
+   */
   public ColorDecorator(Vehicle v) {
     super(
         v.getId(),
@@ -18,6 +23,11 @@ public abstract class ColorDecorator extends Vehicle {
     this.v = v;
   }
 
+  /**
+   * Report statistics for the inner vehicle.
+   *
+   * @param out stream for printing
+   */
   @Override
   public void report(PrintStream out) {
     v.report(out);
