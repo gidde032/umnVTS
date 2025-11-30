@@ -35,17 +35,14 @@ public class GetVehiclesCommand extends SimulatorCommand {
       String vehicleType = "";
       if (currVehicle instanceof SmallBus) {
         vehicleType = SmallBus.SMALL_BUS_VEHICLE;
-        currVehicle = new RGBDecorator(currVehicle, new Color(122, 0, 25, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof LargeBus) {
         vehicleType = LargeBus.LARGE_BUS_VEHICLE;
-        currVehicle = new RGBDecorator(currVehicle, new Color(239, 130, 238, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof ElectricTrain) {
         vehicleType = ElectricTrain.ELECTRIC_TRAIN_VEHICLE;
-        currVehicle = new RGBDecorator(currVehicle, new Color(60, 179, 113, currVehicle.getColor().getAlpha()));
       } else if (currVehicle instanceof DieselTrain) {
         vehicleType = DieselTrain.DIESEL_TRAIN_VEHICLE;
-        currVehicle = new RGBDecorator(currVehicle, new Color(255, 204, 51, currVehicle.getColor().getAlpha()));
       }
+      currVehicle = new RGBDecorator(currVehicle);
       s.addProperty("type", vehicleType);
       s.addProperty("co2", currVehicle.getCurrentCO2Emission());
       JsonObject positionJsonObject = new JsonObject();
