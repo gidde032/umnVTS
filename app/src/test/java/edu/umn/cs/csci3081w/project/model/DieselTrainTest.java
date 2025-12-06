@@ -82,6 +82,8 @@ public class DieselTrainTest {
   @Test
   public void testReport() {
     testTrain.move();
+    Passenger pass = new Passenger(2,"LeBron");
+    testTrain.loadPassenger(pass);
     try {
       final Charset charset = StandardCharsets.UTF_8;
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -100,7 +102,13 @@ public class DieselTrainTest {
               + "Position: 44.97358,-93.235071" + System.lineSeparator()
               + "Distance to next stop: 0.843774422231134" + System.lineSeparator()
               + "****Passengers Info Start****" + System.lineSeparator()
-              + "Num of passengers: 0" + System.lineSeparator()
+              + "Num of passengers: 1" + System.lineSeparator()
+              + "####Passenger Info Start####" + System.lineSeparator()
+              + "Name: LeBron" + System.lineSeparator()
+              + "Destination: 2" + System.lineSeparator()
+              + "Wait at stop: 0" + System.lineSeparator()
+              + "Time on vehicle: 1" + System.lineSeparator()
+              + "####Passenger Info End####" + System.lineSeparator()
               + "****Passengers Info End****" + System.lineSeparator()
               + "####Diesel Train Info End####" + System.lineSeparator();
       assertEquals(strToCompare, data);

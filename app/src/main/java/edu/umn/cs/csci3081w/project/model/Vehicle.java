@@ -302,18 +302,10 @@ public abstract class Vehicle implements VehicleObserver {
     }
   }
 
-  public JsonObject getTestOutput() {
-    return testOutput;
-  }
-
   public void setVehicleSubject(VehicleConcreteSubject vehicleConcreteSubject) {
     this.vehicleConcreteSubject = vehicleConcreteSubject;
   }
 
-  public VehicleConcreteSubject getVehicleConcreteSubject() {
-    return vehicleConcreteSubject;
-  }
-  
   public Color getColor() {
     return rgba;
   }

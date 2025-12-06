@@ -153,6 +153,9 @@ public class VehicleTest {
     assertEquals("test stop 2", testVehicle.getNextStop().getName());
     assertEquals(1, testVehicle.getNextStop().getId());
     testVehicle.update();
+    
+    Passenger testPassenger1 = new Passenger(3, "testPassenger1");
+    assertEquals(1, testVehicle.loadPassenger(testPassenger1));
 
     assertEquals("test stop 1", testVehicle.getNextStop().getName());
     assertEquals(0, testVehicle.getNextStop().getId());

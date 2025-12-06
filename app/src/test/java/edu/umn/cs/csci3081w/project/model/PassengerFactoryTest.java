@@ -1,6 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,8 @@ public class PassengerFactoryTest {
   @Test
   public void testGenerate() {
     assertEquals(3, PassengerFactory.generate(1, 10).getDestination());
-
+    PassengerFactory.DETERMINISTIC = false;
+    assertSame(Passenger.class, PassengerFactory.generate(1, 3).getClass());
   }
 
   /**
@@ -34,7 +36,8 @@ public class PassengerFactoryTest {
   @Test
   public void nameGeneration() {
     assertEquals("Goldy", PassengerFactory.nameGeneration());
-
+    PassengerFactory.DETERMINISTIC = false;
+    assertSame(String.class, PassengerFactory.nameGeneration().getClass());
   }
 
 }
