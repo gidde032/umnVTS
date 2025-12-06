@@ -1,20 +1,25 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class VehicleTest {
 
   private Vehicle testVehicle;
   private Route testRouteIn;
   private Route testRouteOut;
-
+  private VehicleConcreteSubject testSubject;
+  private WebServerSession testSession;
 
   /**
    * Setup operations before each test runs.
@@ -25,7 +30,13 @@ public class VehicleTest {
     PassengerFactory.DETERMINISTIC_NAMES_COUNT = 0;
     PassengerFactory.DETERMINISTIC_DESTINATION_COUNT = 0;
     RandomPassengerGenerator.DETERMINISTIC = true;
-    Vehicle.TESTING = true;
+
+    testSession = mock(WebServerSession.class);
+    testSubject = mock(VehicleConcreteSubject.class);
+
+    when(testSubject.getSession()).thenReturn(testSession);
+    doNothing().when(testSession).sendJson(any(JsonObject.class));
+
     List<Stop> stopsIn = new ArrayList<Stop>();
     Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
@@ -57,6 +68,8 @@ public class VehicleTest {
     testVehicle = new VehicleTestImpl(1, new Line(10000, "testLine",
         "VEHICLE_LINE", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0, new PassengerLoader(), new PassengerUnloader());
+
+    testVehicle.setVehicleSubject(testSubject);
   }
 
   /**
@@ -164,7 +177,11 @@ public class VehicleTest {
   public void testProvideInfo() {
     testVehicle.update();
     testVehicle.provideInfo();
-    JsonObject testOutput = testVehicle.getTestOutput();
+
+    ArgumentCaptor<JsonObject> argCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(testSession).sendJson(argCaptor.capture());
+    JsonObject testOutput = argCaptor.getValue();
+
     String command = testOutput.get("command").getAsString();
     String expectedCommand = "observedVehicle";
     assertEquals(expectedCommand, command);

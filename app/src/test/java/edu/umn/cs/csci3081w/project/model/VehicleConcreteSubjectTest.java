@@ -1,6 +1,9 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 
 import com.google.gson.JsonObject;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
@@ -8,13 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class VehicleConcreteSubjectTest {
 
   private Vehicle testVehicle;
   private Route testRouteIn;
   private Route testRouteOut;
-
+  private VehicleConcreteSubject testSubject;
+  private WebServerSession testSession;
 
   /**
    * Setup operations before each test runs.
@@ -25,7 +30,9 @@ public class VehicleConcreteSubjectTest {
     PassengerFactory.DETERMINISTIC_NAMES_COUNT = 0;
     PassengerFactory.DETERMINISTIC_DESTINATION_COUNT = 0;
     RandomPassengerGenerator.DETERMINISTIC = true;
-    Vehicle.TESTING = true;
+
+    testSession = mock(WebServerSession.class);
+
     List<Stop> stopsIn = new ArrayList<Stop>();
     Stop stop1 = new Stop(0, "test stop 1", new Position(-93.243774, 44.972392));
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
@@ -57,6 +64,8 @@ public class VehicleConcreteSubjectTest {
     testVehicle = new VehicleTestImpl(1, new Line(10000, "testLine",
         "VEHICLE_LINE", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0, new PassengerLoader(), new PassengerUnloader());
+
+    testVehicle.setVehicleSubject(testSubject);
   }
 
   /**
@@ -65,7 +74,7 @@ public class VehicleConcreteSubjectTest {
   @Test
   public void testConstructor() {
     VehicleConcreteSubject vehicleConcreteSubject =
-        new VehicleConcreteSubject(new WebServerSession());
+        new VehicleConcreteSubject(testSession);
     assertEquals(0, vehicleConcreteSubject.getObservers().size());
   }
 
@@ -75,7 +84,7 @@ public class VehicleConcreteSubjectTest {
   @Test
   public void testAttachObserver() {
     VehicleConcreteSubject vehicleConcreteSubject =
-        new VehicleConcreteSubject(new WebServerSession());
+        new VehicleConcreteSubject(testSession);
     vehicleConcreteSubject.attachObserver(testVehicle);
     assertEquals(1, vehicleConcreteSubject.getObservers().size());
   }
@@ -86,7 +95,7 @@ public class VehicleConcreteSubjectTest {
   @Test
   public void testDetachObserver() {
     VehicleConcreteSubject vehicleConcreteSubject =
-        new VehicleConcreteSubject(new WebServerSession());
+        new VehicleConcreteSubject(testSession);
     vehicleConcreteSubject.attachObserver(testVehicle);
     vehicleConcreteSubject.detachObserver(testVehicle);
     assertEquals(0, vehicleConcreteSubject.getObservers().size());
@@ -98,11 +107,16 @@ public class VehicleConcreteSubjectTest {
   @Test
   public void testNotifyObservers() {
     VehicleConcreteSubject vehicleConcreteSubject =
-        new VehicleConcreteSubject(new WebServerSession());
+        new VehicleConcreteSubject(testSession);
+    testVehicle.setVehicleSubject(vehicleConcreteSubject);
     vehicleConcreteSubject.attachObserver(testVehicle);
     testVehicle.update();
     vehicleConcreteSubject.notifyObservers();
-    JsonObject testOutput = testVehicle.getTestOutput();
+
+    ArgumentCaptor<JsonObject> argCaptor = ArgumentCaptor.forClass(JsonObject.class);
+    verify(testSession).sendJson(argCaptor.capture());
+    JsonObject testOutput = argCaptor.getValue();
+
     String command = testOutput.get("command").getAsString();
     String expectedCommand = "observedVehicle";
     assertEquals(expectedCommand, command);

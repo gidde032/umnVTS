@@ -285,9 +285,7 @@ public abstract class Vehicle implements VehicleObserver {
           + System.lineSeparator());
 
       data.addProperty("text", stringBuilder.toString());
-      if (TESTING) {
-        testOutput = data;
-      } else {
+      if (vehicleConcreteSubject != null && vehicleConcreteSubject.getSession() != null) {
         vehicleConcreteSubject.getSession().sendJson(data);
       }
       tripCompleted = false;
@@ -296,9 +294,7 @@ public abstract class Vehicle implements VehicleObserver {
       JsonObject data = new JsonObject();
       data.addProperty("command", "observedVehicle");
       data.addProperty("text", "");
-      if (TESTING) {
-        testOutput = data;
-      } else {
+      if (vehicleConcreteSubject != null && vehicleConcreteSubject.getSession() != null) {
         vehicleConcreteSubject.getSession().sendJson(data);
       }
       tripCompleted = true;
@@ -314,6 +310,10 @@ public abstract class Vehicle implements VehicleObserver {
     this.vehicleConcreteSubject = vehicleConcreteSubject;
   }
 
+  public VehicleConcreteSubject getVehicleConcreteSubject() {
+    return vehicleConcreteSubject;
+  }
+  
   public Color getColor() {
     return rgba;
   }
