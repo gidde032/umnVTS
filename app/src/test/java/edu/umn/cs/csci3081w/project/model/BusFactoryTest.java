@@ -1,17 +1,16 @@
 package edu.umn.cs.csci3081w.project.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class BusFactoryTest {
   private StorageFacility storageFacility;
   private BusFactory busFactory;
-
+  private BusFactory busFactoryNight;
   /**
    *  Setup bus factory.
    */
@@ -23,6 +22,7 @@ public class BusFactoryTest {
     RandomPassengerGenerator.DETERMINISTIC = true;
     storageFacility = new StorageFacility(2, 1, 0, 0);
     busFactory = new BusFactory(storageFacility, new Counter(), 9);
+    busFactoryNight = new BusFactory(storageFacility, new Counter(), 20);
   }
 
   /**
@@ -70,7 +70,11 @@ public class BusFactoryTest {
         new Issue());
 
     Vehicle vehicle = busFactory.generateVehicle(line);
+    Vehicle vehicle2 = busFactoryNight.generateVehicle(line);
     assertTrue(vehicle instanceof LargeBus);
+    assertTrue(vehicle2 instanceof SmallBus);
+    Vehicle vehicle5 = busFactory.generateVehicle(null);
+    assertNull(vehicle5);
   }
 
   /**
@@ -109,10 +113,14 @@ public class BusFactoryTest {
     Bus testBus = new LargeBus(1, new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0);
 
+    Bus testSmallBus = new SmallBus(1, new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
+        new Issue()), 3, 1.0);
+
     assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
     assertEquals(1, busFactory.getStorageFacility().getLargeBusesNum());
     busFactory.returnVehicle(testBus);
-    assertEquals(2, busFactory.getStorageFacility().getSmallBusesNum());
+    busFactory.returnVehicle(testSmallBus);
+    assertEquals(3, busFactory.getStorageFacility().getSmallBusesNum());
     assertEquals(2, busFactory.getStorageFacility().getLargeBusesNum());
 
   }

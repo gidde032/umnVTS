@@ -1,17 +1,16 @@
 package edu.umn.cs.csci3081w.project.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TrainFactoryTest {
   private StorageFacility storageFacility;
   private TrainFactory trainFactory;
-
+  private TrainFactory trainFactoryNight;
   /**
    * Setup operations.
    */
@@ -23,6 +22,7 @@ public class TrainFactoryTest {
     RandomPassengerGenerator.DETERMINISTIC = true;
     storageFacility = new StorageFacility(0, 0, 3, 3);
     trainFactory = new TrainFactory(storageFacility, new Counter(), 9);
+    trainFactoryNight = new TrainFactory(storageFacility, new Counter(), 20);
   }
 
   /**
@@ -70,7 +70,15 @@ public class TrainFactoryTest {
         new Issue());
 
     Vehicle vehicle1 = trainFactory.generateVehicle(line);
+    Vehicle vehicle2 = trainFactory.generateVehicle(line);
+    Vehicle vehicle3 = trainFactory.generateVehicle(line);
+    Vehicle vehicle4 = trainFactory.generateVehicle(line);
     assertTrue(vehicle1 instanceof ElectricTrain);
+    assertTrue(vehicle2 instanceof ElectricTrain);
+    assertTrue(vehicle3 instanceof ElectricTrain);
+    assertTrue(vehicle4 instanceof DieselTrain);
+    Vehicle vehicle5 = trainFactoryNight.generateVehicle(null);
+    assertNull(vehicle5);
   }
 
   /**
@@ -109,11 +117,16 @@ public class TrainFactoryTest {
     Train testTrain = new ElectricTrain(1, new Line(10000, "testLine", "BUS",
         testRouteOut, testRouteIn, new Issue()), 3, 1.0);
 
+    Train testTrain2 = new DieselTrain(1, new Line(10000, "testLine", "BUS",
+        testRouteOut, testRouteIn, new Issue()), 3, 1.0);
+
     assertEquals(3, trainFactory.getStorageFacility().getElectricTrainsNum());
     assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
     trainFactory.returnVehicle(testTrain);
+    trainFactory.returnVehicle(testTrain2);
     assertEquals(4, trainFactory.getStorageFacility().getElectricTrainsNum());
-    assertEquals(3, trainFactory.getStorageFacility().getDieselTrainsNum());
+    assertEquals(4, trainFactory.getStorageFacility().getDieselTrainsNum());
+
 
   }
 }
