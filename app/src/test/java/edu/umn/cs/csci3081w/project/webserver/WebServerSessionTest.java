@@ -45,4 +45,24 @@ public class WebServerSessionTest {
     JsonObject commandToClient = messageCaptor.getValue();
     assertEquals("2", commandToClient.get("numLines").getAsString());
   }
+
+  /**
+   * Tests that an unknown command is handled without throwing an exception.
+   *
+   * <p>This exercises the branch where the command is not present in the
+   * command map of {@link WebServerSessionState}.
+   */
+  @Test
+  public void testUnknownCommandDoesNotThrow() {
+    WebServerSession webServerSessionSpy = spy(WebServerSession.class);
+    doNothing().when(webServerSessionSpy).sendJson(Mockito.isA(JsonObject.class));
+    Session sessionDummy = mock(Session.class);
+    webServerSessionSpy.onOpen(sessionDummy);
+
+    JsonObject unknownCommand = new JsonObject();
+    unknownCommand.addProperty("command", "thisIsNotARealCommand");
+
+    // If onMessage throws an exception, the test will fail automatically.
+    webServerSessionSpy.onMessage(unknownCommand.toString());
+  }
 }
