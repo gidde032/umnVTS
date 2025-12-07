@@ -75,7 +75,7 @@ public class VisualTransitSimulator {
   /**
    * Starts the simulation.
    *
-   * @param vehicleStartTimings start timings of bus
+   * @param vehicleStartTimings start timings of vehicle
    * @param numTimeSteps        number of time steps
    */
   public void start(List<Integer> vehicleStartTimings, int numTimeSteps) {
@@ -109,12 +109,7 @@ public class VisualTransitSimulator {
       for (int i = 0; i < timeSinceLastVehicle.size(); i++) {
         Line line = lines.get(i);
         if (timeSinceLastVehicle.get(i) <= 0) {
-          Vehicle generatedVehicle = null;
-          if (line.getType().equals(Line.BUS_LINE) && !line.isIssueExist()) {
-            generatedVehicle = busFactory.generateVehicle(line.shallowCopy());
-          } else if (line.getType().equals(Line.TRAIN_LINE) && !line.isIssueExist()) {
-            generatedVehicle = trainFactory.generateVehicle(line.shallowCopy());
-          }
+          Vehicle generatedVehicle = createVehicle(line);
           if (line.getType().equals(Line.TRAIN_LINE) || line.getType().equals(Line.BUS_LINE)) {
             if (generatedVehicle != null && !line.isIssueExist()) {
               activeVehicles.add(generatedVehicle);
@@ -156,6 +151,22 @@ public class VisualTransitSimulator {
       }
       vehicleConcreteSubject.notifyObservers();
     }
+  }
+
+  /**
+   * Create a new vehicle based on the line.
+   * overridden in test cases to return a dummy vehicle
+   *
+   * @param line line a new Vehicle operates on
+   * @return a new vehicle created or null
+   */
+  protected Vehicle createVehicle(Line line) {
+    if (line.getType().equals(Line.BUS_LINE) && !line.isIssueExist()) {
+      return busFactory.generateVehicle(line.shallowCopy());
+    } else if (line.getType().equals(Line.TRAIN_LINE) && !line.isIssueExist()) {
+      return trainFactory.generateVehicle(line.shallowCopy());
+    }
+    return null;
   }
 
   public List<Line> getLines() {
