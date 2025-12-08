@@ -2,16 +2,21 @@ package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.gson.JsonObject;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.umn.cs.csci3081w.project.webserver.VisualTransitSimulator;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +29,7 @@ public class VehicleTest {
   private Route testRouteOut;
   private VehicleConcreteSubject testSubject;
   private WebServerSession testSession;
+  private Line baseLine;
 
   @BeforeEach
   public void setUp() {
@@ -43,10 +49,10 @@ public class VehicleTest {
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
     stopsIn.add(stop1);
     stopsIn.add(stop2);
-    List<Double> distancesIn = new ArrayList<>();
+    List<Double> distancesIn = new ArrayList<Double>();
     distancesIn.add(0.843774422231134);
     List<Double> probabilitiesIn = new ArrayList<Double>();
-    probabilitiesIn.add(.025);
+    probabilitiesIn.add(0.025);
     probabilitiesIn.add(0.3);
     PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
 
@@ -56,19 +62,22 @@ public class VehicleTest {
     List<Stop> stopsOut = new ArrayList<Stop>();
     stopsOut.add(stop2);
     stopsOut.add(stop1);
-    List<Double> distancesOut = new ArrayList<>();
+    List<Double> distancesOut = new ArrayList<Double>();
     distancesOut.add(0.843774422231134);
     List<Double> probabilitiesOut = new ArrayList<Double>();
     probabilitiesOut.add(0.3);
-    probabilitiesOut.add(.025);
+    probabilitiesOut.add(0.025);
     PassengerGenerator generatorOut = new RandomPassengerGenerator(stopsOut, probabilitiesOut);
 
     testRouteOut = new Route(1, "testRouteOut",
         stopsOut, distancesOut, generatorOut);
 
-    testVehicle = new VehicleTestImpl(1, new Line(10000, "testLine",
+    baseLine = new Line(10000, "testLine",
         "VEHICLE_LINE", testRouteOut, testRouteIn,
-        new Issue()), 3, 1.0, new PassengerLoader(), new PassengerUnloader());
+        new Issue());
+
+    testVehicle = new VehicleTestImpl(1, baseLine, 3, 1.0,
+        new PassengerLoader(), new PassengerUnloader());
 
     testVehicle.setVehicleSubject(testSubject);
   }
@@ -206,6 +215,99 @@ public class VehicleTest {
       v.update();
       v.provideInfo();
     }
+  }
+
+  @Test
+  public void testMoveAfterTripCompleteUsesTripCompleteBranch() {
+    while (!testVehicle.isTripComplete()) {
+      testVehicle.move();
+    }
+    Position before = testVehicle.getPosition();
+    testVehicle.move();
+    Position after = testVehicle.getPosition();
+    assertEquals(before.getLongitude(), after.getLongitude());
+    assertEquals(before.getLatitude(), after.getLatitude());
+  }
+
+  private static class NegativeSpeedVehicle extends Vehicle {
+
+    NegativeSpeedVehicle(int id, Line line, int capacity,
+                         double speed, PassengerLoader loader,
+                         PassengerUnloader unloader) {
+      super(id, line, capacity, speed, loader, unloader);
+    }
+
+    @Override
+    public void report(PrintStream out) {
+    }
+
+    @Override
+    public int getCurrentCO2Emission() {
+      return 0;
+    }
+  }
+
+  @Test
+  public void testMoveWithNegativeSpeedUsesNegativeSpeedBranch() {
+    PassengerLoader loader = new PassengerLoader();
+    PassengerUnloader unloader = new PassengerUnloader();
+    Vehicle negative = new NegativeSpeedVehicle(
+        2, baseLine, 3, -1.0, loader, unloader);
+
+    Position before = negative.getPosition();
+    negative.move();
+    Position after = negative.getPosition();
+
+    assertEquals(before.getLongitude(), after.getLongitude());
+    assertEquals(before.getLatitude(), after.getLatitude());
+  }
+
+  @Test
+  public void testProvideInfoForTrainTypes() throws Exception {
+    WebServerSession sessionMock = mock(WebServerSession.class);
+    VehicleConcreteSubject subject = new VehicleConcreteSubject(sessionMock);
+    doNothing().when(sessionMock).sendJson(any(JsonObject.class));
+
+    Vehicle electricTrain = createTrainViaReflection(ElectricTrain.class);
+    Vehicle dieselTrain = createTrainViaReflection(DieselTrain.class);
+
+    electricTrain.setVehicleSubject(subject);
+    dieselTrain.setVehicleSubject(subject);
+
+    electricTrain.update();
+    dieselTrain.update();
+    electricTrain.provideInfo();
+    dieselTrain.provideInfo();
+  }
+
+  private Vehicle createTrainViaReflection(Class<?> clazz) throws Exception {
+    PassengerLoader loader = new PassengerLoader();
+    PassengerUnloader unloader = new PassengerUnloader();
+
+    for (Constructor<?> ctor : clazz.getConstructors()) {
+      Class<?>[] types = ctor.getParameterTypes();
+      Object[] args = new Object[types.length];
+      for (int i = 0; i < types.length; i++) {
+        if (types[i] == int.class) {
+          args[i] = 1;
+        } else if (types[i] == double.class) {
+          args[i] = 1.0;
+        } else if (types[i] == Line.class) {
+          args[i] = baseLine;
+        } else if (types[i] == PassengerLoader.class) {
+          args[i] = loader;
+        } else if (types[i] == PassengerUnloader.class) {
+          args[i] = unloader;
+        } else {
+          args[i] = null;
+        }
+      }
+      Object instance = ctor.newInstance(args);
+      if (instance instanceof Vehicle) {
+        return (Vehicle) instance;
+      }
+    }
+    throw new IllegalStateException("No suitable Vehicle constructor found for " + clazz);
   }
 
   @AfterEach
