@@ -1,12 +1,16 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.google.gson.JsonObject;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umn.cs.csci3081w.project.webserver.VisualTransitSimulator;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,9 +25,6 @@ public class VehicleTest {
   private VehicleConcreteSubject testSubject;
   private WebServerSession testSession;
 
-  /**
-   * Setup operations before each test runs.
-   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;
@@ -72,9 +73,6 @@ public class VehicleTest {
     testVehicle.setVehicleSubject(testSubject);
   }
 
-  /**
-   * Tests constructor.
-   */
   @Test
   public void testConstructor() {
     assertEquals(1, testVehicle.getId());
@@ -85,9 +83,6 @@ public class VehicleTest {
     assertEquals(testRouteIn, testVehicle.getLine().getInboundRoute());
   }
 
-  /**
-   * Tests if testIsTripComplete function works properly.
-   */
   @Test
   public void testIsTripComplete() {
     assertEquals(false, testVehicle.isTripComplete());
@@ -96,16 +91,10 @@ public class VehicleTest {
     testVehicle.move();
     testVehicle.move();
     assertEquals(true, testVehicle.isTripComplete());
-
   }
 
-
-  /**
-   * Tests if loadPassenger function works properly.
-   */
   @Test
   public void testLoadPassenger() {
-
     Passenger testPassenger1 = new Passenger(3, "testPassenger1");
     Passenger testPassenger2 = new Passenger(2, "testPassenger2");
     Passenger testPassenger3 = new Passenger(1, "testPassenger3");
@@ -117,13 +106,8 @@ public class VehicleTest {
     assertEquals(0, testVehicle.loadPassenger(testPassenger4));
   }
 
-
-  /**
-   * Tests if move function works properly.
-   */
   @Test
   public void testMove() {
-
     assertEquals("test stop 2", testVehicle.getNextStop().getName());
     assertEquals(1, testVehicle.getNextStop().getId());
     testVehicle.move();
@@ -141,19 +125,14 @@ public class VehicleTest {
 
     testVehicle.move();
     assertEquals(null, testVehicle.getNextStop());
-
   }
 
-  /**
-   * Tests if update function works properly.
-   */
   @Test
   public void testUpdate() {
-
     assertEquals("test stop 2", testVehicle.getNextStop().getName());
     assertEquals(1, testVehicle.getNextStop().getId());
     testVehicle.update();
-    
+
     Passenger testPassenger1 = new Passenger(3, "testPassenger1");
     assertEquals(1, testVehicle.loadPassenger(testPassenger1));
 
@@ -170,12 +149,8 @@ public class VehicleTest {
 
     testVehicle.update();
     assertEquals(null, testVehicle.getNextStop());
-
   }
 
-  /**
-   * Test to see if observer got attached.
-   */
   @Test
   public void testProvideInfo() {
     testVehicle.update();
@@ -198,12 +173,43 @@ public class VehicleTest {
     assertEquals(expectedText, observedText);
   }
 
-  /**
-   * Clean up our variables after each test.
-   */
+  @Test
+  public void testProvideInfoForConcreteVehicleTypes()
+      throws UnsupportedEncodingException {
+
+    String configPath =
+        URLDecoder.decode(
+            getClass().getClassLoader().getResource("config.txt").getFile(), "UTF-8");
+    WebServerSession dummySession = mock(WebServerSession.class);
+    VisualTransitSimulator simulator =
+        new VisualTransitSimulator(configPath, dummySession);
+
+    List<Integer> vehicleStartTimings = new ArrayList<Integer>();
+    for (int i = 0; i < simulator.getLines().size(); i++) {
+      vehicleStartTimings.add(1);
+    }
+    simulator.setVehicleFactories(0);
+    simulator.start(vehicleStartTimings, 10);
+    for (int t = 0; t < 10; t++) {
+      simulator.update();
+    }
+
+    List<Vehicle> activeVehicles = simulator.getActiveVehicles();
+    assertTrue(activeVehicles.size() > 0);
+
+    WebServerSession sessionMock = mock(WebServerSession.class);
+    VehicleConcreteSubject subject = new VehicleConcreteSubject(sessionMock);
+    doNothing().when(sessionMock).sendJson(any(JsonObject.class));
+
+    for (Vehicle v : activeVehicles) {
+      v.setVehicleSubject(subject);
+      v.update();
+      v.provideInfo();
+    }
+  }
+
   @AfterEach
   public void cleanUpEach() {
     testVehicle = null;
   }
-
 }
