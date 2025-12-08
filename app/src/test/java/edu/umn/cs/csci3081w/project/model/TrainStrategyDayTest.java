@@ -1,6 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,5 +46,8 @@ public class TrainStrategyDayTest {
       strToCmpr = trainStrategyDay.getTypeOfVehicle(storageFacility);
       assertEquals(DieselTrain.DIESEL_TRAIN_VEHICLE, strToCmpr);
     }
+    StorageFacility emptyFacility = new StorageFacility(0, 0, 0, 0);
+    strToCmpr = trainStrategyDay.getTypeOfVehicle(emptyFacility);
+    assertNull(strToCmpr);
   }
 }
