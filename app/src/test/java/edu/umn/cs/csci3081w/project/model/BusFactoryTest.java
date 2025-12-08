@@ -1,16 +1,19 @@
 package edu.umn.cs.csci3081w.project.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class BusFactoryTest {
   private StorageFacility storageFacility;
   private BusFactory busFactory;
   private BusFactory busFactoryNight;
+
   /**
    *  Setup bus factory.
    */

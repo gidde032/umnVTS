@@ -9,9 +9,9 @@ import static org.mockito.Mockito.when;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import edu.umn.cs.csci3081w.project.model.LargeBus;
 import edu.umn.cs.csci3081w.project.model.SmallBus;
 import edu.umn.cs.csci3081w.project.model.Vehicle;
-import edu.umn.cs.csci3081w.project.model.LargeBus;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;

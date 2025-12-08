@@ -1,5 +1,8 @@
 package edu.umn.cs.csci3081w.project.webserver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import edu.umn.cs.csci3081w.project.model.Counter;
 import edu.umn.cs.csci3081w.project.model.PassengerFactory;
 import edu.umn.cs.csci3081w.project.model.RandomPassengerGenerator;
@@ -15,9 +18,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class ConfigManagerTest {
 

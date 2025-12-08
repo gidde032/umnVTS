@@ -23,7 +23,7 @@ public class WebServerSessionStateTest {
   }
 
   /**
-   * Tests if the commands can be modified and stored by properly accessing them through getCommands().
+   * Tests if the commands can be modified and stored by accessing them through getCommands().
    */
   @Test
   public void testAddCommandsThroughGetCommands() {

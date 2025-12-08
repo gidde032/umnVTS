@@ -1,13 +1,12 @@
 package edu.umn.cs.csci3081w.project.model;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RgbDecoratorTest {
 
@@ -91,8 +90,8 @@ public class RgbDecoratorTest {
    */
   @Test
   public void testConstructorElectricTrain() {
-    testVehicle = new ElectricTrain(1, new Line(10000, "testLine", "TRAIN", testRouteOut, testRouteIn,
-        new Issue()), 3, 1.0);
+    testVehicle = new ElectricTrain(1, new Line(10000, "testLine", "TRAIN", testRouteOut,
+        testRouteIn, new Issue()), 3, 1.0);
     testRgbDecorator = new RgbDecorator(testVehicle);
     assertEquals(60, testRgbDecorator.getColor().getRed());
     assertEquals(179, testRgbDecorator.getColor().getGreen());

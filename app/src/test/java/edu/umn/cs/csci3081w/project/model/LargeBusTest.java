@@ -81,7 +81,7 @@ public class LargeBusTest {
   @Test
   public void testReport() {
     testBus.move();
-    Passenger pass = new Passenger(2,"LeBron");
+    Passenger pass = new Passenger(2, "LeBron");
     testBus.loadPassenger(pass);
     try {
       final Charset charset = StandardCharsets.UTF_8;

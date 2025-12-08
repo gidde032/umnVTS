@@ -100,7 +100,7 @@ public class WebServerSessionTest {
    * <p>This exercises the catch block in sendJson.
    */
   @Test
-  public void testSendJsonHandlesIOException() throws IOException {
+  public void testSendJsonHandlesIoException() throws IOException {
     WebServerSession webServerSession = new WebServerSession();
 
     Session sessionMock = mock(Session.class);

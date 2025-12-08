@@ -1,7 +1,9 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.gson.JsonObject;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
@@ -19,6 +21,9 @@ public class VehicleConcreteSubjectTest {
   private VehicleConcreteSubject testSubject;
   private WebServerSession testSession;
 
+  /**
+   * Setup before each test.
+   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;

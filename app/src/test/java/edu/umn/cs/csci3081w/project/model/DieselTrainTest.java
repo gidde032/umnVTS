@@ -82,7 +82,7 @@ public class DieselTrainTest {
   @Test
   public void testReport() {
     testTrain.move();
-    Passenger pass = new Passenger(2,"LeBron");
+    Passenger pass = new Passenger(2, "LeBron");
     testTrain.loadPassenger(pass);
     try {
       final Charset charset = StandardCharsets.UTF_8;

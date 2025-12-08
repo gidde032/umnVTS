@@ -13,8 +13,8 @@ import edu.umn.cs.csci3081w.project.webserver.VisualTransitSimulator;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.lang.reflect.Constructor;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +31,9 @@ public class VehicleTest {
   private WebServerSession testSession;
   private Line baseLine;
 
+  /**
+   * Setup test Vehicle.
+   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;

@@ -19,6 +19,9 @@ public class LineTest {
   private Line testLine;
   private Stop testStop;
 
+  /**
+   * Setup test Line.
+   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;
