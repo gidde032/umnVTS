@@ -205,7 +205,6 @@ public class LineTest {
     assertEquals(true, testLine.isIssueExist());
   }
 
-  // >>> 新增的测试：专门覆盖 issue == null 这条分支 <<<
   @Test
   public void testIsIssueExistWhenIssueIsNull() {
     Line lineWithNullIssue = new Line(
