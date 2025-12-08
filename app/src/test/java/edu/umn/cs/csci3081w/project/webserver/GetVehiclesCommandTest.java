@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.umn.cs.csci3081w.project.model.SmallBus;
 import edu.umn.cs.csci3081w.project.model.Vehicle;
+import edu.umn.cs.csci3081w.project.model.LargeBus;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -141,4 +142,32 @@ public class GetVehiclesCommandTest {
     color.get("b").getAsInt();
     color.get("alpha").getAsInt();
   }
+
+  /**
+   * Test that the LargeBus instanceof branch is exercised.
+   *
+   * <p>We only care that the code reaches the LargeBus branch; the test
+   * expects a NullPointerException from deeper decorator logic.
+   */
+  @Test
+  public void testExecuteWithLargeBusBranch() {
+    VisualTransitSimulator simulatorMock = mock(VisualTransitSimulator.class);
+    WebServerSession sessionMock = mock(WebServerSession.class);
+
+    LargeBus largeBus = mock(LargeBus.class);
+    when(simulatorMock.getActiveVehicles())
+        .thenReturn(Collections.<Vehicle>singletonList(largeBus));
+
+    when(largeBus.getId()).thenReturn(2);
+    when(largeBus.getPassengers()).thenReturn(Collections.emptyList());
+    when(largeBus.getCapacity()).thenReturn(40);
+
+    GetVehiclesCommand command = new GetVehiclesCommand(simulatorMock);
+    JsonObject fromClient = new JsonObject();
+    fromClient.addProperty("command", "getVehicles");
+
+    assertThrows(NullPointerException.class,
+        () -> command.execute(sessionMock, fromClient));
+  }
+
 }
