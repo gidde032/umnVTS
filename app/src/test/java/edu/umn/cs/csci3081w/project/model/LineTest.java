@@ -19,9 +19,6 @@ public class LineTest {
   private Line testLine;
   private Stop testStop;
 
-  /**
-   * Setup operations before each test runs.
-   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;
@@ -40,42 +37,31 @@ public class LineTest {
     Route testRouteOut = new Route(10, "testRouteOut",
         stopsOut, distancesOut, generatorOut);
 
-    List<Stop> stopsIn = new ArrayList<>();
+    List<Stop> stopsIn = new ArrayList<Stop>();
     stopsIn.add(testStop);
-    List<Double> distancesIn = new ArrayList<>();
+    List<Double> distancesIn = new ArrayList<Double>();
     distancesIn.add(0.961379387775189);
-    List<Double> probabilitiesIn = new ArrayList<>();
+    List<Double> probabilitiesIn = new ArrayList<Double>();
     probabilitiesIn.add(.4);
     PassengerGenerator generatorIn = new RandomPassengerGenerator(stopsIn, probabilitiesIn);
     Route testRouteIn = new Route(11, "testRouteIn",
         stopsIn, distancesIn, generatorIn);
 
-
     testLine = new Line(0, "testLine", Line.BUS_LINE,
         testRouteOut, testRouteIn,
         new Issue());
-
   }
 
-  /**
-   * Tests constructor.
-   */
   @Test
   public void testConstructor() {
-
     assertEquals(0, testLine.getId());
     assertEquals("testLine", testLine.getName());
     assertEquals(Line.BUS_LINE, testLine.getType());
     assertEquals("testRouteOut", testLine.getOutboundRoute().getName());
     assertEquals("testRouteIn", testLine.getInboundRoute().getName());
     assertEquals(false, testLine.isIssueExist());
-
   }
 
-
-  /**
-   * Tests reporting functionality.
-   */
   @Test
   public void testReport() {
     try {
@@ -93,7 +79,6 @@ public class LineTest {
               + "Name: testLine" + System.lineSeparator()
               + "Type: BUS_LINE" + System.lineSeparator()
 
-              // outbound route report
               + "####Route Info Start####" + System.lineSeparator()
               + "ID: 10" + System.lineSeparator()
               + "Name: testRouteOut" + System.lineSeparator()
@@ -112,7 +97,6 @@ public class LineTest {
               + "****Stops Info End****" + System.lineSeparator()
               + "####Route Info End####" + System.lineSeparator()
 
-              // inbound route report
               + "####Route Info Start####" + System.lineSeparator()
               + "ID: 11" + System.lineSeparator()
               + "Name: testRouteIn" + System.lineSeparator()
@@ -131,7 +115,6 @@ public class LineTest {
               + "****Stops Info End****" + System.lineSeparator()
               + "####Route Info End####" + System.lineSeparator()
 
-
               + "====Line Info End====" + System.lineSeparator();
       assertEquals(data, strToCompare);
     } catch (IOException ioe) {
@@ -139,13 +122,8 @@ public class LineTest {
     }
   }
 
-
-  /**
-   * Tests if shallowCopy function works properly.
-   */
   @Test
   public void testShallowCopy() {
-
     Line shallowTestLine = testLine.shallowCopy();
 
     assertEquals(false, shallowTestLine.getOutboundRoute().isAtEnd());
@@ -155,45 +133,30 @@ public class LineTest {
 
     assertEquals(true, shallowTestLine.getOutboundRoute().isAtEnd());
     assertEquals(false, testLine.getOutboundRoute().isAtEnd());
-
   }
 
-
-  /**
-   * Tests if update function works properly.
-   */
   @Test
   public void testUpdateWithoutIssue() {
-
     Passenger passenger = new Passenger(1, "test passenger");
 
     testStop.addPassengers(passenger);
 
     assertEquals(false, testLine.isIssueExist());
-
     assertEquals(0, passenger.getWaitAtStop());
 
     testLine.update();
 
     assertEquals(2, passenger.getWaitAtStop());
-
   }
 
-
-  /**
-   * Tests if update function works properly.
-   */
   @Test
   public void testUpdateWithIssue() {
-
     Passenger passenger = new Passenger(1, "test passenger");
 
     testLine.createIssue();
-
     testStop.addPassengers(passenger);
 
     assertEquals(true, testLine.isIssueExist());
-
     assertEquals(0, passenger.getWaitAtStop());
 
     testLine.update();
@@ -209,16 +172,10 @@ public class LineTest {
 
     assertEquals(20, passenger.getWaitAtStop());
     assertEquals(false, testLine.isIssueExist());
-
   }
 
-
-  /**
-   * Tests if isIssueExist function works properly.
-   */
   @Test
   public void testIsIssueExist() {
-
     assertEquals(false, testLine.isIssueExist());
 
     testLine.createIssue();
@@ -237,30 +194,34 @@ public class LineTest {
     testLine.update();
 
     assertEquals(false, testLine.isIssueExist());
-
-
   }
 
-  /**
-   * Tests if createIssue function works properly.
-   */
   @Test
   public void testCreateIssue() {
-
     assertEquals(false, testLine.isIssueExist());
 
     testLine.createIssue();
 
     assertEquals(true, testLine.isIssueExist());
-
   }
 
-  /**
-   * Clean up our variables after each test.
-   */
+  // >>> 新增的测试：专门覆盖 issue == null 这条分支 <<<
+  @Test
+  public void testIsIssueExistWhenIssueIsNull() {
+    Line lineWithNullIssue = new Line(
+        1,
+        "nullIssueLine",
+        Line.BUS_LINE,
+        testLine.getOutboundRoute(),
+        testLine.getInboundRoute(),
+        null
+    );
+
+    assertEquals(false, lineWithNullIssue.isIssueExist());
+  }
+
   @AfterEach
   public void cleanUpEach() {
     testLine = null;
   }
-
 }
