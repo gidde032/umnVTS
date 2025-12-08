@@ -1,9 +1,7 @@
 package edu.umn.cs.csci3081w.project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
 
 import com.google.gson.JsonObject;
 import edu.umn.cs.csci3081w.project.webserver.WebServerSession;
@@ -21,9 +19,6 @@ public class VehicleConcreteSubjectTest {
   private VehicleConcreteSubject testSubject;
   private WebServerSession testSession;
 
-  /**
-   * Setup operations before each test runs.
-   */
   @BeforeEach
   public void setUp() {
     PassengerFactory.DETERMINISTIC = true;
@@ -38,7 +33,7 @@ public class VehicleConcreteSubjectTest {
     Stop stop2 = new Stop(1, "test stop 2", new Position(-93.235071, 44.973580));
     stopsIn.add(stop1);
     stopsIn.add(stop2);
-    List<Double> distancesIn = new ArrayList<>();
+    List<Double> distancesIn = new ArrayList<Double>();
     distancesIn.add(0.843774422231134);
     List<Double> probabilitiesIn = new ArrayList<Double>();
     probabilitiesIn.add(.025);
@@ -51,7 +46,7 @@ public class VehicleConcreteSubjectTest {
     List<Stop> stopsOut = new ArrayList<Stop>();
     stopsOut.add(stop2);
     stopsOut.add(stop1);
-    List<Double> distancesOut = new ArrayList<>();
+    List<Double> distancesOut = new ArrayList<Double>();
     distancesOut.add(0.843774422231134);
     List<Double> probabilitiesOut = new ArrayList<Double>();
     probabilitiesOut.add(0.3);
@@ -68,9 +63,6 @@ public class VehicleConcreteSubjectTest {
     testVehicle.setVehicleSubject(testSubject);
   }
 
-  /**
-   * Tests constructor.
-   */
   @Test
   public void testConstructor() {
     VehicleConcreteSubject vehicleConcreteSubject =
@@ -78,9 +70,6 @@ public class VehicleConcreteSubjectTest {
     assertEquals(0, vehicleConcreteSubject.getObservers().size());
   }
 
-  /**
-   * Tests attach observer.
-   */
   @Test
   public void testAttachObserver() {
     VehicleConcreteSubject vehicleConcreteSubject =
@@ -89,9 +78,6 @@ public class VehicleConcreteSubjectTest {
     assertEquals(1, vehicleConcreteSubject.getObservers().size());
   }
 
-  /**
-   * Tests detach observer.
-   */
   @Test
   public void testDetachObserver() {
     VehicleConcreteSubject vehicleConcreteSubject =
@@ -101,9 +87,6 @@ public class VehicleConcreteSubjectTest {
     assertEquals(0, vehicleConcreteSubject.getObservers().size());
   }
 
-  /**
-   * Tests detach observer.
-   */
   @Test
   public void testNotifyObservers() {
     VehicleConcreteSubject vehicleConcreteSubject =
@@ -130,4 +113,21 @@ public class VehicleConcreteSubjectTest {
     assertEquals(expectedText, observedText);
   }
 
+  @Test
+  public void testNotifyObserversRemovesCompletedObserver() {
+    WebServerSession sessionMock = mock(WebServerSession.class);
+    VehicleConcreteSubject subject = new VehicleConcreteSubject(sessionMock);
+
+    VehicleObserver observerMock = mock(VehicleObserver.class);
+    when(observerMock.provideInfo()).thenReturn(true);
+
+    subject.attachObserver(observerMock);
+    assertEquals(1, subject.getObservers().size());
+
+    subject.notifyObservers();
+
+    assertEquals(0, subject.getObservers().size());
+    verify(observerMock).setVehicleSubject(subject);
+    verify(observerMock).provideInfo();
+  }
 }
