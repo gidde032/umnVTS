@@ -1,8 +1,5 @@
 package edu.umn.cs.csci3081w.project.webserver;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import edu.umn.cs.csci3081w.project.model.Counter;
 import edu.umn.cs.csci3081w.project.model.PassengerFactory;
 import edu.umn.cs.csci3081w.project.model.RandomPassengerGenerator;
@@ -18,6 +15,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ConfigManagerTest {
 
@@ -115,50 +115,50 @@ public class ConfigManagerTest {
       outputStream.close();
       String strToCompare =
           "====Line Info Start====" + System.lineSeparator()
-          + "ID: 10000" + System.lineSeparator()
-          + "Name: Campus Connector" + System.lineSeparator()
-          + "Type: BUS_LINE" + System.lineSeparator()
+              + "ID: 10000" + System.lineSeparator()
+              + "Name: Campus Connector" + System.lineSeparator()
+              + "Type: BUS_LINE" + System.lineSeparator()
 
-          // outbound route report
-          + "####Route Info Start####" + System.lineSeparator()
-          + "ID: 10" + System.lineSeparator()
-          + "Name: East Bound" + System.lineSeparator()
-          + "Num stops: 1" + System.lineSeparator()
-          + "****Stops Info Start****" + System.lineSeparator()
-          + "++++Next Stop Info Start++++" + System.lineSeparator()
-          + "####Stop Info Start####" + System.lineSeparator()
-          + "ID: 100" + System.lineSeparator()
-          + "Name: Blegen Hall" + System.lineSeparator()
-          + "Position: 44.972392,-93.243774" + System.lineSeparator()
-          + "****Passengers Info Start****" + System.lineSeparator()
-          + "Num passengers waiting: 0" + System.lineSeparator()
-          + "****Passengers Info End****" + System.lineSeparator()
-          + "####Stop Info End####" + System.lineSeparator()
-          + "++++Next Stop Info End++++" + System.lineSeparator()
-          + "****Stops Info End****" + System.lineSeparator()
-          + "####Route Info End####" + System.lineSeparator()
+              // outbound route report
+              + "####Route Info Start####" + System.lineSeparator()
+              + "ID: 10" + System.lineSeparator()
+              + "Name: East Bound" + System.lineSeparator()
+              + "Num stops: 1" + System.lineSeparator()
+              + "****Stops Info Start****" + System.lineSeparator()
+              + "++++Next Stop Info Start++++" + System.lineSeparator()
+              + "####Stop Info Start####" + System.lineSeparator()
+              + "ID: 100" + System.lineSeparator()
+              + "Name: Blegen Hall" + System.lineSeparator()
+              + "Position: 44.972392,-93.243774" + System.lineSeparator()
+              + "****Passengers Info Start****" + System.lineSeparator()
+              + "Num passengers waiting: 0" + System.lineSeparator()
+              + "****Passengers Info End****" + System.lineSeparator()
+              + "####Stop Info End####" + System.lineSeparator()
+              + "++++Next Stop Info End++++" + System.lineSeparator()
+              + "****Stops Info End****" + System.lineSeparator()
+              + "####Route Info End####" + System.lineSeparator()
 
-          // inbound route report
-          + "####Route Info Start####" + System.lineSeparator()
-          + "ID: 11" + System.lineSeparator()
-          + "Name: West Bound" + System.lineSeparator()
-          + "Num stops: 1" + System.lineSeparator()
-          + "****Stops Info Start****" + System.lineSeparator()
-          + "++++Next Stop Info Start++++" + System.lineSeparator()
-          + "####Stop Info Start####" + System.lineSeparator()
-          + "ID: 101" + System.lineSeparator()
-          + "Name: St. Paul Student Center" + System.lineSeparator()
-          + "Position: 44.98463,-93.186352" + System.lineSeparator()
-          + "****Passengers Info Start****" + System.lineSeparator()
-          + "Num passengers waiting: 0" + System.lineSeparator()
-          + "****Passengers Info End****" + System.lineSeparator()
-          + "####Stop Info End####" + System.lineSeparator()
-          + "++++Next Stop Info End++++" + System.lineSeparator()
-          + "****Stops Info End****" + System.lineSeparator()
-          + "####Route Info End####" + System.lineSeparator()
+              // inbound route report
+              + "####Route Info Start####" + System.lineSeparator()
+              + "ID: 11" + System.lineSeparator()
+              + "Name: West Bound" + System.lineSeparator()
+              + "Num stops: 1" + System.lineSeparator()
+              + "****Stops Info Start****" + System.lineSeparator()
+              + "++++Next Stop Info Start++++" + System.lineSeparator()
+              + "####Stop Info Start####" + System.lineSeparator()
+              + "ID: 101" + System.lineSeparator()
+              + "Name: St. Paul Student Center" + System.lineSeparator()
+              + "Position: 44.98463,-93.186352" + System.lineSeparator()
+              + "****Passengers Info Start****" + System.lineSeparator()
+              + "Num passengers waiting: 0" + System.lineSeparator()
+              + "****Passengers Info End****" + System.lineSeparator()
+              + "####Stop Info End####" + System.lineSeparator()
+              + "++++Next Stop Info End++++" + System.lineSeparator()
+              + "****Stops Info End****" + System.lineSeparator()
+              + "####Route Info End####" + System.lineSeparator()
 
 
-          + "====Line Info End====" + System.lineSeparator();
+              + "====Line Info End====" + System.lineSeparator();
       assertEquals(data, strToCompare);
     } catch (IOException ioe) {
       fail();
@@ -181,58 +181,58 @@ public class ConfigManagerTest {
       outputStream.close();
       String strToCompare =
           "====Line Info Start====" + System.lineSeparator()
-          + "ID: 10001" + System.lineSeparator()
-          + "Name: Express Train" + System.lineSeparator()
-          + "Type: TRAIN_LINE" + System.lineSeparator()
+              + "ID: 10001" + System.lineSeparator()
+              + "Name: Express Train" + System.lineSeparator()
+              + "Type: TRAIN_LINE" + System.lineSeparator()
 
-          // outbound route report
-          + "####Route Info Start####" + System.lineSeparator()
-          + "ID: 12" + System.lineSeparator()
-          + "Name: East Bound Train" + System.lineSeparator()
-          + "Num stops: 2" + System.lineSeparator()
-          + "****Stops Info Start****" + System.lineSeparator()
-          + "++++Next Stop Info Start++++" + System.lineSeparator()
-          + "####Stop Info Start####" + System.lineSeparator()
-          + "ID: 102" + System.lineSeparator()
-          + "Name: Stadium Village" + System.lineSeparator()
-          + "Position: 44.974769,-93.22277" + System.lineSeparator()
-          + "****Passengers Info Start****" + System.lineSeparator()
-          + "Num passengers waiting: 0" + System.lineSeparator()
-          + "****Passengers Info End****" + System.lineSeparator()
-          + "####Stop Info End####" + System.lineSeparator()
-          + "++++Next Stop Info End++++" + System.lineSeparator()
-          + "####Stop Info Start####" + System.lineSeparator()
-          + "ID: 103" + System.lineSeparator()
-          + "Name: Water Tower" + System.lineSeparator()
-          + "Position: 44.969139,-93.210371" + System.lineSeparator()
-          + "****Passengers Info Start****" + System.lineSeparator()
-          + "Num passengers waiting: 0" + System.lineSeparator()
-          + "****Passengers Info End****" + System.lineSeparator()
-          + "####Stop Info End####" + System.lineSeparator()
-          + "****Stops Info End****" + System.lineSeparator()
-          + "####Route Info End####" + System.lineSeparator()
+              // outbound route report
+              + "####Route Info Start####" + System.lineSeparator()
+              + "ID: 12" + System.lineSeparator()
+              + "Name: East Bound Train" + System.lineSeparator()
+              + "Num stops: 2" + System.lineSeparator()
+              + "****Stops Info Start****" + System.lineSeparator()
+              + "++++Next Stop Info Start++++" + System.lineSeparator()
+              + "####Stop Info Start####" + System.lineSeparator()
+              + "ID: 102" + System.lineSeparator()
+              + "Name: Stadium Village" + System.lineSeparator()
+              + "Position: 44.974769,-93.22277" + System.lineSeparator()
+              + "****Passengers Info Start****" + System.lineSeparator()
+              + "Num passengers waiting: 0" + System.lineSeparator()
+              + "****Passengers Info End****" + System.lineSeparator()
+              + "####Stop Info End####" + System.lineSeparator()
+              + "++++Next Stop Info End++++" + System.lineSeparator()
+              + "####Stop Info Start####" + System.lineSeparator()
+              + "ID: 103" + System.lineSeparator()
+              + "Name: Water Tower" + System.lineSeparator()
+              + "Position: 44.969139,-93.210371" + System.lineSeparator()
+              + "****Passengers Info Start****" + System.lineSeparator()
+              + "Num passengers waiting: 0" + System.lineSeparator()
+              + "****Passengers Info End****" + System.lineSeparator()
+              + "####Stop Info End####" + System.lineSeparator()
+              + "****Stops Info End****" + System.lineSeparator()
+              + "####Route Info End####" + System.lineSeparator()
 
-          // inbound route report
-          + "####Route Info Start####" + System.lineSeparator()
-          + "ID: 13" + System.lineSeparator()
-          + "Name: West Bound Train" + System.lineSeparator()
-          + "Num stops: 1" + System.lineSeparator()
-          + "****Stops Info Start****" + System.lineSeparator()
-          + "++++Next Stop Info Start++++" + System.lineSeparator()
-          + "####Stop Info Start####" + System.lineSeparator()
-          + "ID: 104" + System.lineSeparator()
-          + "Name: Raymond" + System.lineSeparator()
-          + "Position: 44.963552,-93.195403" + System.lineSeparator()
-          + "****Passengers Info Start****" + System.lineSeparator()
-          + "Num passengers waiting: 0" + System.lineSeparator()
-          + "****Passengers Info End****" + System.lineSeparator()
-          + "####Stop Info End####" + System.lineSeparator()
-          + "++++Next Stop Info End++++" + System.lineSeparator()
-          + "****Stops Info End****" + System.lineSeparator()
-          + "####Route Info End####" + System.lineSeparator()
+              // inbound route report
+              + "####Route Info Start####" + System.lineSeparator()
+              + "ID: 13" + System.lineSeparator()
+              + "Name: West Bound Train" + System.lineSeparator()
+              + "Num stops: 1" + System.lineSeparator()
+              + "****Stops Info Start****" + System.lineSeparator()
+              + "++++Next Stop Info Start++++" + System.lineSeparator()
+              + "####Stop Info Start####" + System.lineSeparator()
+              + "ID: 104" + System.lineSeparator()
+              + "Name: Raymond" + System.lineSeparator()
+              + "Position: 44.963552,-93.195403" + System.lineSeparator()
+              + "****Passengers Info Start****" + System.lineSeparator()
+              + "Num passengers waiting: 0" + System.lineSeparator()
+              + "****Passengers Info End****" + System.lineSeparator()
+              + "####Stop Info End####" + System.lineSeparator()
+              + "++++Next Stop Info End++++" + System.lineSeparator()
+              + "****Stops Info End****" + System.lineSeparator()
+              + "####Route Info End####" + System.lineSeparator()
 
 
-          + "====Line Info End====" + System.lineSeparator();
+              + "====Line Info End====" + System.lineSeparator();
       assertEquals(data, strToCompare);
     } catch (IOException ioe) {
       fail();
