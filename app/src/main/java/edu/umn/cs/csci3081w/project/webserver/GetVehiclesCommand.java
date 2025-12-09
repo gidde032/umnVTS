@@ -2,8 +2,13 @@ package edu.umn.cs.csci3081w.project.webserver;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import edu.umn.cs.csci3081w.project.model.*;
-
+import edu.umn.cs.csci3081w.project.model.AlphaDecorator;
+import edu.umn.cs.csci3081w.project.model.DieselTrain;
+import edu.umn.cs.csci3081w.project.model.ElectricTrain;
+import edu.umn.cs.csci3081w.project.model.LargeBus;
+import edu.umn.cs.csci3081w.project.model.RgbDecorator;
+import edu.umn.cs.csci3081w.project.model.SmallBus;
+import edu.umn.cs.csci3081w.project.model.Vehicle;
 import java.util.List;
 
 public class GetVehiclesCommand extends SimulatorCommand {
@@ -42,7 +47,7 @@ public class GetVehiclesCommand extends SimulatorCommand {
       } else if (currVehicle instanceof DieselTrain) {
         vehicleType = DieselTrain.DIESEL_TRAIN_VEHICLE;
       }
-      currVehicle = new RGBDecorator(currVehicle);
+      currVehicle = new RgbDecorator(currVehicle);
       s.addProperty("type", vehicleType);
       s.addProperty("co2", currVehicle.getCurrentCO2Emission());
       JsonObject positionJsonObject = new JsonObject();

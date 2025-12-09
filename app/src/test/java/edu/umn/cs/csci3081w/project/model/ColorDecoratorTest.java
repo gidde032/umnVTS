@@ -73,7 +73,7 @@ public class ColorDecoratorTest {
     assertEquals(1, testDecorator.getSpeed());
     assertEquals(testRouteOut, testDecorator.getLine().getOutboundRoute());
     assertEquals(testRouteIn, testDecorator.getLine().getInboundRoute());
-    assertEquals(testVehicle, testDecorator.v);
+    assertEquals(testVehicle, testDecorator.vehicle);
   }
 
   /**

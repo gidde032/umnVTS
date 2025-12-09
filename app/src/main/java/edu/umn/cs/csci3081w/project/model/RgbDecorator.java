@@ -1,17 +1,15 @@
 package edu.umn.cs.csci3081w.project.model;
 
-import java.io.PrintStream;
-
-public class RGBDecorator extends ColorDecorator{
+public class RgbDecorator extends ColorDecorator {
 
   private Color rgba;
 
   /**
-   * Constructor for a RGBDecorator
+   * Constructor for a RGBDecorator.
    *
    * @param v Vehicle
    */
-  public RGBDecorator(Vehicle v) {
+  public RgbDecorator(Vehicle v) {
     super(v);
     this.rgba = v.getColor();
     if (v instanceof SmallBus) {

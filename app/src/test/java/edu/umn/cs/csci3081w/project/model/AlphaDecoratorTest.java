@@ -73,7 +73,7 @@ public class AlphaDecoratorTest {
     assertEquals(1, testAlphaDecorator.getSpeed());
     assertEquals(testRouteOut, testAlphaDecorator.getLine().getOutboundRoute());
     assertEquals(testRouteIn, testAlphaDecorator.getLine().getInboundRoute());
-    assertEquals(testVehicle, testAlphaDecorator.v);
+    assertEquals(testVehicle, testAlphaDecorator.vehicle);
   }
 
   /**

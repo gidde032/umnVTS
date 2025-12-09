@@ -9,9 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RGBDecoratorTest {
+public class RgbDecoratorTest {
 
-  private RGBDecorator testRGBDecorator;
+  private RgbDecorator testRgbDecorator;
   private Vehicle testVehicle;
   private Route testRouteIn;
   private Route testRouteOut;
@@ -64,12 +64,12 @@ public class RGBDecoratorTest {
   public void testConstructorSmallBus() {
     testVehicle = new SmallBus(1, new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0);
-    testRGBDecorator = new RGBDecorator(testVehicle);
-    assertEquals(122, testRGBDecorator.getColor().getRed());
-    assertEquals(0, testRGBDecorator.getColor().getGreen());
-    assertEquals(25, testRGBDecorator.getColor().getBlue());
-    assertEquals(testVehicle.getColor().getAlpha(), testRGBDecorator.getColor().getAlpha());
-    assertEquals(testVehicle, testRGBDecorator.v);
+    testRgbDecorator = new RgbDecorator(testVehicle);
+    assertEquals(122, testRgbDecorator.getColor().getRed());
+    assertEquals(0, testRgbDecorator.getColor().getGreen());
+    assertEquals(25, testRgbDecorator.getColor().getBlue());
+    assertEquals(testVehicle.getColor().getAlpha(), testRgbDecorator.getColor().getAlpha());
+    assertEquals(testVehicle, testRgbDecorator.vehicle);
   }
 
   /**
@@ -79,11 +79,11 @@ public class RGBDecoratorTest {
   public void testConstructorLargeBus() {
     testVehicle = new LargeBus(1, new Line(10000, "testLine", "BUS", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0);
-    testRGBDecorator = new RGBDecorator(testVehicle);
-    assertEquals(239, testRGBDecorator.getColor().getRed());
-    assertEquals(130, testRGBDecorator.getColor().getGreen());
-    assertEquals(238, testRGBDecorator.getColor().getBlue());
-    assertEquals(testVehicle.getColor().getAlpha(), testRGBDecorator.getColor().getAlpha());
+    testRgbDecorator = new RgbDecorator(testVehicle);
+    assertEquals(239, testRgbDecorator.getColor().getRed());
+    assertEquals(130, testRgbDecorator.getColor().getGreen());
+    assertEquals(238, testRgbDecorator.getColor().getBlue());
+    assertEquals(testVehicle.getColor().getAlpha(), testRgbDecorator.getColor().getAlpha());
   }
 
   /**
@@ -93,11 +93,11 @@ public class RGBDecoratorTest {
   public void testConstructorElectricTrain() {
     testVehicle = new ElectricTrain(1, new Line(10000, "testLine", "TRAIN", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0);
-    testRGBDecorator = new RGBDecorator(testVehicle);
-    assertEquals(60, testRGBDecorator.getColor().getRed());
-    assertEquals(179, testRGBDecorator.getColor().getGreen());
-    assertEquals(113, testRGBDecorator.getColor().getBlue());
-    assertEquals(testVehicle.getColor().getAlpha(), testRGBDecorator.getColor().getAlpha());
+    testRgbDecorator = new RgbDecorator(testVehicle);
+    assertEquals(60, testRgbDecorator.getColor().getRed());
+    assertEquals(179, testRgbDecorator.getColor().getGreen());
+    assertEquals(113, testRgbDecorator.getColor().getBlue());
+    assertEquals(testVehicle.getColor().getAlpha(), testRgbDecorator.getColor().getAlpha());
   }
 
   /**
@@ -107,11 +107,11 @@ public class RGBDecoratorTest {
   public void testConstructorDieselTrain() {
     testVehicle = new DieselTrain(1, new Line(10000, "testLine", "TRAIN", testRouteOut, testRouteIn,
         new Issue()), 3, 1.0);
-    testRGBDecorator = new RGBDecorator(testVehicle);
-    assertEquals(255, testRGBDecorator.getColor().getRed());
-    assertEquals(204, testRGBDecorator.getColor().getGreen());
-    assertEquals(51, testRGBDecorator.getColor().getBlue());
-    assertEquals(testVehicle.getColor().getAlpha(), testRGBDecorator.getColor().getAlpha());
+    testRgbDecorator = new RgbDecorator(testVehicle);
+    assertEquals(255, testRgbDecorator.getColor().getRed());
+    assertEquals(204, testRgbDecorator.getColor().getGreen());
+    assertEquals(51, testRgbDecorator.getColor().getBlue());
+    assertEquals(testVehicle.getColor().getAlpha(), testRgbDecorator.getColor().getAlpha());
   }
 
   /**
@@ -119,7 +119,7 @@ public class RGBDecoratorTest {
    */
   @AfterEach
   public void cleanUpEach() {
-    testRGBDecorator = null;
+    testRgbDecorator = null;
     testVehicle = null;
   }
 

@@ -20,7 +20,7 @@ public class AlphaDecorator extends ColorDecorator {
    */
   @Override
   public Color getColor() {
-    Color vehicleColor = v.getColor();
+    Color vehicleColor = vehicle.getColor();
     return new Color(
         vehicleColor.getRed(),
         vehicleColor.getGreen(),

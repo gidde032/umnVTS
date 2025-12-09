@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 public abstract class ColorDecorator extends Vehicle {
 
-  protected final Vehicle v;
+  protected final Vehicle vehicle;
 
   /**
    * ColorDecorator's constructor.
@@ -20,7 +20,7 @@ public abstract class ColorDecorator extends Vehicle {
         v.getPassengerLoader(),
         v.getPassengerUnloader()
     );
-    this.v = v;
+    this.vehicle = v;
   }
 
   /**
@@ -30,12 +30,12 @@ public abstract class ColorDecorator extends Vehicle {
    */
   @Override
   public void report(PrintStream out) {
-    v.report(out);
+    vehicle.report(out);
   }
 
   @Override
   public int getCurrentCO2Emission() {
-    return v.getCurrentCO2Emission();
+    return vehicle.getCurrentCO2Emission();
   }
 
   public abstract Color getColor();

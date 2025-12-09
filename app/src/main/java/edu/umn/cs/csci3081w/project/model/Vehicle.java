@@ -50,7 +50,7 @@ public abstract class Vehicle implements VehicleObserver {
     setPosition(new Position(nextStop.getPosition().getLongitude(),
         nextStop.getPosition().getLatitude()));
     carbonEmissionHistory = new ArrayList<Integer>();
-    this.rgba = new Color(0,0,0,255);
+    this.rgba = new Color(0, 0, 0, 255);
   }
 
   public abstract void report(PrintStream out);
