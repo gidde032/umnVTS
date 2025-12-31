@@ -1,4 +1,4 @@
-# Visual Transit Simulator
+# Visual Transit Simulator: An Interactive Display of the University of Minnesota's Transit System
 
 <img width="831" height="446" alt="Screenshot 2025-12-31 at 1 35 29 PM" src="https://github.com/user-attachments/assets/60c25436-8e0d-45b5-a746-0a0153561407" />
 
