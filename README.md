@@ -1,5 +1,7 @@
 # Visual Transit Simulator
 
+<img width="831" height="446" alt="Screenshot 2025-12-31 at 1 35 29 PM" src="https://github.com/user-attachments/assets/60c25436-8e0d-45b5-a746-0a0153561407" />
+
 ## Visual Transit Simulator Software Overview
 
 ### VTS Outline
@@ -23,7 +25,7 @@ The user of the VTS software interacts with the visualization module using the b
 
 <img width="1158" height="632" alt="Screenshot 2025-12-31 at 12 43 57 PM" src="https://github.com/user-attachments/assets/1ebcf5c0-90cf-448e-879b-6feffca66367" />
 
-### VTS Software Details
+### VTS Software Specifics
 
 #### Simulation Configuration
 The simulation is based on the configuration file. The following excerpt of the configuration file defines a bus line and storage facility information:
@@ -71,7 +73,7 @@ STORAGE_FACILITY_END
 ```
 
 - The configuration line `LINE_START, BUS_LINE, Campus Connector` defines the beginning of the information belonging to a simulated line. The configuration line `ROUTE_START, East Bound` defines a the beginning of the information defining the outbound route. (The outbound route is always defined before the inbound route).
-- The subsequent configuration lines are the stops in the route. Each stop has a name, a latitude, a longitude, and the probability to generate a passenger at the stop. For example, for `STOP, Blegen Hall, 44.972392, -93.243774, .15`, `Blegen Hall` is the name of the stop, `44.972392` is the latitude, `-93.243774` is the longitude, and `.15` (i.e., `0.15`) is the probability to generate a passenger at the stop.
+- The subsequent configuration lines are the stops in the route. Each stop has a name, a latitude, a longitude, and the probability to generate a passenger at the stop. For example, for `STOP, Blegen Hall, 44.972392, -93.243774, .15`, `Blegen Hall` is the name of the stop, `44.972392` is the latitude, `-93.243774` is the longitude, and `.15` is the probability to generate a passenger at the stop.
 - The last stop in a route has a probability to generate a passenger always equal to zero.
 - The information inside `STORAGE_FACILITY_START` and `STORAGE_FACILITY_END` provides the number of small buses, large buses, electric trains, and diesel trains available for the simulation.
 
@@ -117,13 +119,18 @@ Transparency effects indicate vehicles affected by line issues, and the color sy
 - **Duration Control:** Specifies total simulation runtime in time units (from 1-100 units)
 
 ### Interactive Information Display
+
 **Vehicle Hover Info:** Mouse over vehicles to view:
+
+<img width="169" height="97" alt="Screenshot 2025-12-31 at 1 41 04 PM" src="https://github.com/user-attachments/assets/bb37d60a-c19c-4b78-bd13-58359b5e6986" />
 
 - Current passenger count
 - Vehicle capacity
 - Current CO2 consumption
 
 **Stop Hover Info:** Mouse over stops to display:
+
+<img width="164" height="83" alt="Screenshot 2025-12-31 at 1 41 28 PM" src="https://github.com/user-attachments/assets/06ec42f1-dda9-4a83-b84d-6e0f3a86d1dc" />
 
 - Number of waiting passengers
 - Vehicle at stop (if applicable)
@@ -133,6 +140,14 @@ Transparency effects indicate vehicles affected by line issues, and the color sy
 - Support for multiple simultaneous lines (bus and train)
 - Bidirectional routing (outbound/inbound) with automatic coordination
 - Probabilistic passenger generation at each stop
+
+### Line Issues
+
+<img width="262" height="168" alt="Screenshot 2025-12-31 at 1 40 39 PM" src="https://github.com/user-attachments/assets/322d412e-5375-4151-b61d-b85d27baf9ae" />
+
+- Vehicles can be impacted by line issues causing them to stop following their route
+- This is represented by the vehicle turning transparent
+- After 10 time steps, the issue resolves and the vehicle becomes opaque and resumes its route
 
 ### Technical Implementation Highlights
 **Design Patterns**
