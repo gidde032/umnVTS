@@ -119,8 +119,9 @@ Transparency effects indicate vehicles affected by line issues, and the color sy
 - **Duration Control:** Specifies total simulation runtime in time units (from 1-100 units)
 
 ### Interactive Information Display
+Users can mouse over vehicles and stops to display relevant information.
 
-**Vehicle Hover Info:** Mouse over vehicles to view:
+**Vehicle Hover Info:**
 
 <img width="169" height="97" alt="Screenshot 2025-12-31 at 1 41 04 PM" src="https://github.com/user-attachments/assets/bb37d60a-c19c-4b78-bd13-58359b5e6986" />
 
@@ -128,7 +129,7 @@ Transparency effects indicate vehicles affected by line issues, and the color sy
 - Vehicle capacity
 - Current CO2 consumption
 
-**Stop Hover Info:** Mouse over stops to display:
+**Stop Hover Info:**
 
 <img width="164" height="83" alt="Screenshot 2025-12-31 at 1 41 28 PM" src="https://github.com/user-attachments/assets/06ec42f1-dda9-4a83-b84d-6e0f3a86d1dc" />
 
