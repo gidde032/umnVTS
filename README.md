@@ -1,6 +1,6 @@
 # Visual Transit Simulator
 
-## The Visual Transit Simulator Software
+## Visual Transit Simulator Software Overview
 
 The VTS software models vehicle transit around the University of Minnesota campus. Specifically, the software simulates the behavior of vehicles and passengers on campus. The VTS software supports two types of vehicles: buses and trains. Vehicles provide service for a line. A line is made by two routes: an outbound and an inbound route. Vehicles go along a route, make stops, and pick up/drop off passengers. The simulation operates over a certain number of time units. In each time unit, the VTS software updates the state of the simulation by creating passengers at stops, moving vehicles along the routes, allowing a vehicle to pick up passengers at a stop, etc. The simulation is configured using a *configuration* file that specifies the simulated lines, the stops of the routes, and how likely it is that a passenger will show up at a certain stop at each time unit. Routes must be defined in pairs, that is, there should be both an outbound and inbound route and the routes should be specified one after the other. The ending stop of the outbound route should be at the same location as the starting stop of the inbound route and the ending stop of the inbound route should be at the same location as the starting stop of the outbound route. However, stops between the starting and ending stops of outbound and inbound routes can be at different locations. After a vehicle has passed a stop, it is possible for passengers to show up at stops that the vehicle has already passed. For this reason, the simulator supports the creation of multiple vehicles and these vehicles will go and pick up the new passengers. Each vehicle has its own understanding of its own route, but the stops have relationships with multiple vehicles serving the same line. Vehicles do not make more than one trip in the line they serve. When a vehicle finishes both of its routes (outbound and inbound), the vehicle exits the simulation.
 
@@ -64,3 +64,64 @@ To run the VTS software, you have to **first start the simulator module** and **
 
 #### Simulation Workflow
 When you load the visualization module in the browser, the visualization module opens a connection to the simulator module (using a websocket). The opening of the connection triggers the execution of the `WebServerSession.onOpen` method in the simulator module. When you click `Start` in the GUI of the visualization module, the module starts sending messages/commands to the simulator module. The messages/commands exchanged by the two modules are JSON objects. You can see the messages/commands created by the visualization module insdie `<dir>/app/src/main/webapp/web_graphics/sketch.js`. The simulator module processes messages received by the visualization model inside the `WebServerSession.onMessage` method. The simulator module sends messages to the visualization module using the `WebServerSession.sendJson` method. Finally, once you start the simulation you can restart it only by reloading the visualization module in the browser (i.e., reloading the web page of the visualization module).
+
+## Visual Transit Simulator Features
+
+### Core Simulation Features
+
+### Dynamic Color Decoration System
+
+<img width="464" height="409" alt="Screenshot 2025-12-31 at 12 50 06 PM" src="https://github.com/user-attachments/assets/56944bde-565a-46d9-95b0-5c9d2976e80e" />
+
+Vehicles are decorated with distinctive colors using the Decorator pattern:
+
+- **Small buses:** Maroon (RGB: 122, 0, 25)
+- **Large buses:** Pink (RGB: 239, 130, 238)
+- **Electric trains:** Green (RGB: 60, 179, 113)
+- **Diesel trains:** Yellow (RGB: 255, 204, 51)
+
+
+Transparency effects indicate vehicles affected by line issues, and the color system as a whole aids in visual identification and tracking of vehicle types.
+
+### Simulation Controls
+
+<img width="217" height="639" alt="Screenshot 2025-12-31 at 1 04 48 PM" src="https://github.com/user-attachments/assets/d321761c-1169-498d-b5ad-e0ff476e73a8" />
+
+- **Start/Pause:** Toggles simulation execution in real-time
+- **Restart:** Reloads the browser to reset the simulation to initial state
+- **Time Step Customization:** Adjusts simulation speed and allows for customizable vehicle spawn rates (from 1-10 units)
+- **Duration Control:** Specifies total simulation runtime in time units (from 1-100 units)
+
+### Interactive Information Display
+
+**Vehicle Hover Info:** Mouse over vehicles to view:
+
+- Current passenger count
+- Vehicle capacity
+- Current CO2 consumption
+
+**Stop Hover Info:** Mouse over stops to display:
+
+- Number of waiting passengers
+- Vehicle at stop (if applicable)
+
+### Procedural Route Generation
+
+- Routes configured via customizable external configuration files
+- Support for multiple simultaneous lines (bus and train)
+- Bidirectional routing (outbound/inbound) with automatic coordination
+- Probabilistic passenger generation at each stop
+
+### Technical Implementation Highlights
+
+**Design Patterns**
+
+- **Decorator Pattern:** Vehicle color decoration system with transparency effects
+- **Observer Pattern:** WebSocket-based communication between modules
+- **Factory Pattern:** Vehicle and passenger instantiation
+
+**Architecture**
+
+- **Modular Design:** Separation of visualization (JavaScript/HTML) and simulation (Java) modules
+- **WebSocket Communication:** Real-time bidirectional data exchange
+- **Configuration-Driven:** External file-based simulation setup
